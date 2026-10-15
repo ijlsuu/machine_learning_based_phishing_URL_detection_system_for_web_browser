@@ -9,18 +9,36 @@
   Werkzeug 3.1.8
 
 **Installation**
+  
+  1. Clone or download this project into a single folder:
 
-  Install all file in one folder.
-
-  /Phishing Detection System
-  - app.py
-  - phishing_dataset.csv
-  - train_model.py
-  - index.html
+    Phishing Detection System/
+    |- app.py
+    |- phishing_dataset.csv
+    |- train_model.py
+    |- frontend
+      |-index.html
+      
+  2. Create virtual machine environment:
+    
+    ```bash
+    python3 -m venv venv
+    source venv/bin/activate      # Linux/macOS
+    venv\Scripts\activate         # Windows
 
 **Deployment**
+  1. Train the model with the dataset (only needed to be train once).
+     `python3 train_model.py`.
+     
+  2. Start the flask server.
+     `python3 app.py`
+  
+  3. Open the website UI.
+     `frontend/index.html`
 
-  To start you have to train the model first by running the command `python3 train_model.py` and generate the trained model `phishing_model.pkl`, to deploy command `python3 app.py` to run the server. Open `index.html`.
+**Note**
+
+  If you ever update the dataset `phishing_dataset.csv`, rerun training the model `python3 train_model.py`
 
 
 
