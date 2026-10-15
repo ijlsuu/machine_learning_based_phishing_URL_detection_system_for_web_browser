@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Phishing URL Detector</title>
+    <style>
+        body { font-family: Arial; max-width: 600px; margin: 50px auto; }
+        input { width: 70%; padding: 10px; font-size: 16px; }
+        button { padding: 10px 20px; font-size: 16px; cursor: pointer; }
+        .result { margin-top: 20px; padding: 20px; border-radius: 5px; }
+        .safe { background: #d4edda; color: #155724; }
+        .phishing { background: #f8d7da; color: #721c24; }
+    </style>
+</head>
+<body>
+    <p>Enter a URL to check if it's safe:</p>
+    
+    <input type="text" id="urlInput" placeholder="https://example.com">
+    <button onclick="checkURL()">Check URL</button>
+    
+    <div id="result"></div>
+
+    <script>
+        async function checkURL() {
+            const url = document.getElementById('urlInput').value;
+            const resultDiv = document.getElementById('result');
+            
+            if (!url) {
+                resultDiv.innerHTML = 'Please enter a URL';
+                return;
+            }
+
+            try {
+                const response = await fetch('http://localhost:5000/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ url: url })
+                });
+                
+                const data = await response.json();
+                
+                const isPhishing = data.is_phishing;
+                const confidence = data.confidence;
+                
+                resultDiv.className = `result ${isPhishing ? 'phishing' : 'safe'}`;
+                resultDiv.innerHTML = `
+                    <strong>${isPhishing ? 'PHISHING DETECTED!' : 'SAFE LINK'}</strong><br>
+                    Confidence: ${confidence}%<br>
+                    <small>Features: Length=${data.features.length}, Dots=${data.features.dots}, HTTPS=${data.features.https}</small>
+                `;
+            } catch (error) {
+                resultDiv.innerHTML = 'Error: Make sure Python server is running on port 5000';
+                console.error(error);
+            }
+        }
+    </script>
+</body>
+</html>
+		
