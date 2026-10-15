@@ -4,9 +4,9 @@
 
 **Prerequisites**
   
-  Python (v3.12.7 or higher)
-  Flask 3.1.3
-  Werkzeug 3.1.8
+    Python (v3.12.7 or higher)
+    Flask (3.1.3)
+    Werkzeug (3.1.8)
 
 **Installation**
   
